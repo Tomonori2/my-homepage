@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西 — My Page</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ocean: #0077B6;
+  --sky: #00B4D8;
+  --foam: #90E0EF;
+  --sand: #F5ECD7;
+  --dark: #023047;
+  --text: #1a2a3a;
+  --muted: #6b7f8e;
+  --white: #ffffff;
+  --card-bg: #ffffff;
+  --bg: #f0f6fb;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(2,48,71,0.92); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 56px;
+}
+.nav-logo { color: var(--foam); font-size: 18px; font-weight: 700; letter-spacing: 1px; }
+.nav-links { display: flex; gap: 1.8rem; list-style: none; }
+.nav-links a { color: #cce8f4; text-decoration: none; font-size: 14px; transition: color .2s; }
+.nav-links a:hover { color: var(--foam); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: url('media/hero-bg.jpg') center center / cover no-repeat;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 80px 1.5rem 3rem; position: relative; overflow: hidden;
+}
+.hero-wave {
+  position: absolute; bottom: -2px; left: 0; width: 100%; z-index: 1;
+}
+.hero-avatar {
+  width: 110px; height: 110px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--foam), var(--sky));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 52px; margin-bottom: 1.5rem;
+  box-shadow: 0 0 0 4px rgba(144,224,239,0.35);
+}
+.hero h1 { font-size: 42px; font-weight: 800; color: var(--white); letter-spacing: 2px; }
+.hero-sub { font-size: 16px; color: var(--foam); margin: 0.5rem 0 1.5rem; letter-spacing: 0.5px; }
+.hero-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.tag {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+  color: #e0f4ff; border-radius: 20px; padding: 5px 14px; font-size: 13px;
+}
+
+/* ── SECTIONS ── */
+section { padding: 5rem 1.5rem; max-width: 860px; margin: 0 auto; }
+.section-title {
+  font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--sky); margin-bottom: 0.5rem;
+}
+.section-heading { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 2rem; }
+
+/* ── ABOUT ── */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media(max-width:600px){ .about-grid { grid-template-columns: 1fr; } }
+.about-card {
+  background: var(--card-bg); border-radius: 16px; padding: 1.5rem;
+  box-shadow: 0 2px 16px rgba(0,119,182,0.08); border: 1px solid #ddeef8;
+}
+.about-card .icon { font-size: 28px; margin-bottom: 0.75rem; }
+.about-card h3 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 0.4rem; }
+.about-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+/* ── SPOTS ── */
+.spots-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
+@media(max-width:600px){ .spots-grid { grid-template-columns: 1fr; } }
+.spot-card {
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,119,182,0.1);
+  background: var(--card-bg); border: 1px solid #ddeef8;
+  transition: transform .2s, box-shadow .2s;
+}
+.spot-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,119,182,0.18); }
+.spot-img {
+  height: 180px; display: flex; align-items: center; justify-content: center;
+  font-size: 40px; overflow: hidden; background: #cce8f4;
+}
+.spot-img img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.spot-img video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.spot-info { padding: 1rem; }
+.spot-info h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+.spot-info p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* ── BLOG ── */
+#blog { padding-bottom: 5rem; }
+.blog-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+.write-btn {
+  background: var(--ocean); color: var(--white);
+  border: none; border-radius: 10px; padding: 10px 22px;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.write-btn:hover { background: var(--dark); transform: scale(1.03); }
+.posts-list { display: flex; flex-direction: column; gap: 1rem; }
+.post-card {
+  background: var(--card-bg); border-radius: 16px; padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,119,182,0.07); border: 1px solid #ddeef8;
+  cursor: pointer; transition: box-shadow .2s;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+}
+.post-card:hover { box-shadow: 0 6px 24px rgba(0,119,182,0.15); }
+.post-meta { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.post-title { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+.post-preview { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.post-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.btn-icon {
+  background: none; border: 1px solid #dde; border-radius: 8px;
+  padding: 5px 10px; font-size: 13px; cursor: pointer; color: var(--muted);
+  transition: background .15s;
+}
+.btn-icon:hover { background: #f0f6fb; }
+.empty-state { text-align: center; padding: 3rem; color: var(--muted); font-size: 15px; }
+.empty-state .big { font-size: 40px; margin-bottom: 0.5rem; }
+
+/* ── MODAL ── */
+.modal-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(2,48,71,0.55); backdrop-filter: blur(4px);
+  z-index: 200; align-items: center; justify-content: center;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: var(--white); border-radius: 20px;
+  width: 100%; max-width: 600px; margin: 1rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  display: flex; flex-direction: column; max-height: 90vh;
+}
+.modal-header {
+  padding: 1.25rem 1.5rem; border-bottom: 1px solid #eee;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-header h2 { font-size: 17px; font-weight: 700; color: var(--dark); }
+.modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted); line-height: 1; }
+.modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
+.field { margin-bottom: 1.25rem; }
+.field label { display: block; font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+.field input, .field textarea {
+  width: 100%; padding: 10px 14px; border: 1.5px solid #d0e4f0;
+  border-radius: 10px; font-size: 15px; font-family: inherit;
+  transition: border-color .2s; outline: none; color: var(--text);
+}
+.field input:focus, .field textarea:focus { border-color: var(--sky); }
+.field textarea { resize: vertical; min-height: 180px; line-height: 1.7; }
+.modal-footer {
+  padding: 1rem 1.5rem; border-top: 1px solid #eee;
+  display: flex; gap: 10px; justify-content: flex-end;
+}
+.btn-cancel { background: none; border: 1.5px solid #dde; border-radius: 10px; padding: 9px 20px; font-size: 14px; cursor: pointer; color: var(--muted); }
+.btn-save { background: var(--ocean); color: white; border: none; border-radius: 10px; padding: 9px 24px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn-save:hover { background: var(--dark); }
+
+/* ── READ MODAL ── */
+.read-modal-body { padding: 1.5rem; overflow-y: auto; }
+.read-title { font-size: 22px; font-weight: 800; color: var(--dark); margin-bottom: 0.5rem; }
+.read-date { font-size: 12px; color: var(--muted); margin-bottom: 1.5rem; }
+.read-content { font-size: 15px; line-height: 1.9; color: var(--text); white-space: pre-wrap; }
+
+/* ── WAVE WIDGET ── */
+.wave-section { padding: 3rem 1.5rem; max-width: 860px; margin: 0 auto; }
+.wave-widget {
+  background: linear-gradient(135deg, var(--dark) 0%, var(--ocean) 100%);
+  border-radius: 20px; padding: 2rem; color: white;
+  box-shadow: 0 8px 32px rgba(0,119,182,0.25);
+}
+.wave-widget-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem;
+}
+.wave-widget-title { font-size: 18px; font-weight: 700; }
+.wave-widget-sub { font-size: 12px; color: var(--foam); margin-top: 2px; }
+.wave-updated { font-size: 11px; color: rgba(144,224,239,0.7); }
+.wave-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+}
+@media(max-width:600px){ .wave-grid { grid-template-columns: repeat(2,1fr); } }
+.wave-stat {
+  background: rgba(255,255,255,0.1); border-radius: 14px;
+  padding: 1rem; text-align: center; border: 1px solid rgba(255,255,255,0.15);
+}
+.wave-stat-icon { font-size: 26px; margin-bottom: 6px; }
+.wave-stat-value { font-size: 22px; font-weight: 800; color: #fff; line-height: 1; }
+.wave-stat-unit { font-size: 11px; color: var(--foam); margin-top: 2px; }
+.wave-stat-label { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 6px; }
+.wave-rating {
+  margin-top: 1.5rem; background: rgba(255,255,255,0.1);
+  border-radius: 14px; padding: 1rem 1.5rem;
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+}
+.wave-rating-label { font-size: 13px; color: var(--foam); }
+.wave-rating-value { font-size: 20px; font-weight: 800; }
+.wave-rating-desc { font-size: 13px; color: rgba(255,255,255,0.75); }
+.wave-loading { text-align: center; padding: 2rem; color: var(--foam); font-size: 14px; }
+.wave-error { text-align: center; padding: 1rem; color: #ffaaa5; font-size: 13px; }
+
+/* ── TIDE SECTION ── */
+.tide-sub {
+  margin-top: 1.5rem; background: rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 1.25rem;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.tide-sub-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;
+}
+.tide-sub-title { font-size: 14px; font-weight: 700; color: var(--foam); }
+.tide-updated-label { font-size: 11px; color: rgba(144,224,239,0.6); }
+.tide-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.tide-item {
+  flex: 1; min-width: 120px; background: rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 0.8rem; text-align: center;
+}
+.tide-item-type { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+.tide-item-height { font-size: 22px; font-weight: 800; color: #fff; line-height: 1; }
+.tide-item-unit { font-size: 11px; color: var(--foam); }
+.tide-item-time { font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 5px; font-weight: 600; }
+.tide-setup { text-align: center; padding: 0.75rem 0; }
+.tide-setup p { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 0.75rem; }
+.tide-key-form { display: flex; gap: 8px; margin-bottom: 0.75rem; }
+.tide-key-input {
+  flex: 1; padding: 8px 12px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.1);
+  color: white; font-size: 13px; outline: none;
+}
+.tide-key-input::placeholder { color: rgba(255,255,255,0.4); }
+.tide-key-btn {
+  padding: 8px 16px; border-radius: 8px;
+  background: var(--sky); color: white; border: none;
+  font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
+}
+.tide-reg-link { color: var(--foam); font-size: 12px; text-decoration: underline; }
+.tide-error-msg { font-size: 12px; color: #ffaaa5; text-align: center; padding: 0.5rem; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark); color: #7bafc8; text-align: center;
+  padding: 2rem 1rem; font-size: 13px;
+}
+footer span { color: var(--foam); font-weight: 600; }
+</style>
+<!-- Google AdSense: 審査通過後にコメントアウトを外してください -->
+<!--
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🏄 NISHI</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#wave">波情報</a></li>
+    <li><a href="#spots">Spots</a></li>
+    <li><a href="#blog">Blog</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;">
+  <div class="hero-avatar">🏄</div>
+  <h1>西</h1>
+  <div class="hero-sub">伊良湖 → 沖縄 · 下田 · 鴨川</div>
+  <div class="hero-tags">
+    <span class="tag">🌊 サーフィン</span>
+    <span class="tag">✈️ 旅行</span>
+    <span class="tag">💪 運動</span>
+    <span class="tag">🤖 AIと働く</span>
+  </div>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#f0f6fb"/>
+  </svg>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-title">About me</div>
+  <div class="section-heading">自己紹介</div>
+  <div class="about-grid">
+    <div class="about-card">
+      <div class="icon">🏠</div>
+      <h3>ホームビーチ</h3>
+      <p>伊良湖がホームビーチ。太平洋に面した波に恵まれたお気に入りの海です。</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">🌊</div>
+      <h3>サーフィン</h3>
+      <p>波を追い求めて沖縄・下田・鴨川へ。海との対話が好きです。</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">💪</div>
+      <h3>運動</h3>
+      <p>体を動かすことが大好き。サーフィン以外にもアクティブに過ごしています。</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">🤖</div>
+      <h3>AIと仕事</h3>
+      <p>テクノロジーの力を活かして、AIと協力しながら新しい働き方を模索中です。</p>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE WIDGET -->
+<div class="wave-section" id="wave">
+  <div class="wave-widget">
+    <div class="wave-widget-header">
+      <div>
+        <div class="wave-widget-title">🌊 伊良湖 波情報</div>
+        <div class="wave-widget-sub">Irago Point — リアルタイム海況</div>
+      </div>
+      <div class="wave-updated" id="waveUpdated">取得中...</div>
+    </div>
+    <div id="waveContent">
+      <div class="wave-loading">🌊 データを取得しています...</div>
+    </div>
+
+    <!-- 潮位サブセクション -->
+    <div class="tide-sub">
+      <div class="tide-sub-header">
+        <div class="tide-sub-title">🕐 田原赤羽 本日の潮位</div>
+        <div class="tide-updated-label" id="tideUpdated"></div>
+      </div>
+      <div id="tideContent">
+        <div class="wave-loading" style="font-size:13px;">取得中...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPOTS -->
+<section id="spots">
+  <div class="section-title">Surf Spots</div>
+  <div class="section-heading">よく行くスポット</div>
+  <div class="spots-grid">
+    <div class="spot-card">
+      <div class="spot-img">
+        <img src="media/沖縄.jpg" alt="沖縄">
+      </div>
+      <div class="spot-info">
+        <h3>🌺 沖縄</h3>
+        <p>エメラルドグリーンの海とパワフルな波。南国の空気が最高。</p>
+      </div>
+    </div>
+    <div class="spot-card">
+      <div class="spot-img">
+        <video src="media/下田.mp4" autoplay muted loop playsinline></video>
+      </div>
+      <div class="spot-info">
+        <h3>⛵ 下田</h3>
+        <p>伊豆半島の先端。歴史ある港町と綺麗な海が魅力。</p>
+      </div>
+    </div>
+    <div class="spot-card">
+      <div class="spot-img">
+        <video src="media/鴨川.mp4" autoplay muted loop playsinline></video>
+      </div>
+      <div class="spot-info">
+        <h3>🐚 鴨川</h3>
+        <p>千葉の湘南。コンスタントに波があり、ドライブも楽しい。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="blog-header">
+    <div>
+      <div class="section-title">Blog</div>
+      <div class="section-heading" style="margin-bottom:0">ブログ</div>
+    </div>
+    <button class="write-btn" onclick="openWriteModal()">✏️ 記事を書く</button>
+  </div>
+  <div class="posts-list" id="postsList"></div>
+</section>
+
+<!-- 広告枠: 審査通過後にコメントアウトを外してください -->
+<!--
+<div style="max-width:860px;margin:0 auto;padding:0 1.5rem 2rem;">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+       data-ad-slot="XXXXXXXXXX"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+-->
+
+<!-- FOOTER -->
+<footer>
+  <p>Made with 🌊 by <span>西</span> &nbsp;·&nbsp; 伊良湖発、海と波と未来へ</p>
+</footer>
+
+<!-- WRITE MODAL -->
+<div class="modal-backdrop" id="writeModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">✏️ 新しい記事</h2>
+      <button class="modal-close" onclick="closeWriteModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>タイトル</label>
+        <input type="text" id="postTitleInput" placeholder="記事のタイトルを入力...">
+      </div>
+      <div class="field">
+        <label>本文</label>
+        <textarea id="postBodyInput" placeholder="ここに文章を書いてください..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeWriteModal()">キャンセル</button>
+      <button class="btn-save" onclick="savePost()">保存する</button>
+    </div>
+  </div>
+</div>
+
+<!-- READ MODAL -->
+<div class="modal-backdrop" id="readModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>📖 記事</h2>
+      <button class="modal-close" onclick="closeReadModal()">✕</button>
+    </div>
+    <div class="read-modal-body">
+      <div class="read-title" id="readTitle"></div>
+      <div class="read-date" id="readDate"></div>
+      <div class="read-content" id="readContent"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeReadModal()">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'nishi_blog_posts';
+let editingId = null;
+
+function getPosts() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+function savePosts(posts) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+}
+
+function formatDate(ts) {
+  const d = new Date(ts);
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
+
+function renderPosts() {
+  const posts = getPosts();
+  const el = document.getElementById('postsList');
+  if (posts.length === 0) {
+    el.innerHTML = `<div class="empty-state"><div class="big">📝</div>まだ記事がありません。<br>「記事を書く」ボタンから投稿してみましょう！</div>`;
+    return;
+  }
+  el.innerHTML = posts.slice().reverse().map(p => `
+    <div class="post-card" onclick="openReadModal('${p.id}')">
+      <div style="flex:1;min-width:0;">
+        <div class="post-meta">${formatDate(p.createdAt)}</div>
+        <div class="post-title">${escHtml(p.title)}</div>
+        <div class="post-preview">${escHtml(p.body.slice(0,80))}${p.body.length>80?'…':''}</div>
+      </div>
+      <div class="post-actions" onclick="event.stopPropagation()">
+        <button class="btn-icon" onclick="openEditModal('${p.id}')" title="編集">✏️</button>
+        <button class="btn-icon" onclick="deletePost('${p.id}')" title="削除">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function openWriteModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = '✏️ 新しい記事';
+  document.getElementById('postTitleInput').value = '';
+  document.getElementById('postBodyInput').value = '';
+  document.getElementById('writeModal').classList.add('open');
+  setTimeout(() => document.getElementById('postTitleInput').focus(), 100);
+}
+
+function openEditModal(id) {
+  const posts = getPosts();
+  const p = posts.find(x => x.id === id);
+  if (!p) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = '✏️ 記事を編集';
+  document.getElementById('postTitleInput').value = p.title;
+  document.getElementById('postBodyInput').value = p.body;
+  document.getElementById('writeModal').classList.add('open');
+}
+
+function closeWriteModal() {
+  document.getElementById('writeModal').classList.remove('open');
+}
+
+function savePost() {
+  const title = document.getElementById('postTitleInput').value.trim();
+  const body  = document.getElementById('postBodyInput').value.trim();
+  if (!title) { document.getElementById('postTitleInput').focus(); return; }
+  if (!body)  { document.getElementById('postBodyInput').focus(); return; }
+  const posts = getPosts();
+  if (editingId) {
+    const i = posts.findIndex(x => x.id === editingId);
+    if (i > -1) { posts[i].title = title; posts[i].body = body; posts[i].updatedAt = Date.now(); }
+  } else {
+    posts.push({ id: Date.now().toString(), title, body, createdAt: Date.now() });
+  }
+  savePosts(posts);
+  closeWriteModal();
+  renderPosts();
+}
+
+function deletePost(id) {
+  if (!confirm('この記事を削除しますか？')) return;
+  savePosts(getPosts().filter(p => p.id !== id));
+  renderPosts();
+}
+
+function openReadModal(id) {
+  const p = getPosts().find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('readTitle').textContent = p.title;
+  document.getElementById('readDate').textContent = formatDate(p.createdAt);
+  document.getElementById('readContent').textContent = p.body;
+  document.getElementById('readModal').classList.add('open');
+}
+
+function closeReadModal() {
+  document.getElementById('readModal').classList.remove('open');
+}
+
+// Close modal on backdrop click
+['writeModal','readModal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', e => {
+    if (e.target.id === id) { e.target.classList.remove('open'); }
+  });
+});
+
+// ESC key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-backdrop.open').forEach(m => m.classList.remove('open'));
+  }
+});
+
+renderPosts();
+
+// ── 波情報ウィジェット ──
+async function fetchWave() {
+  const LAT = 34.5757, LON = 137.0386;
+  const url = `https://marine-api.open-meteo.com/v1/marine?latitude=${LAT}&longitude=${LON}&current=wave_height,wave_direction,wave_period,wind_wave_height,swell_wave_height`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const c = data.current;
+    const waveH  = c.wave_height        ?? null;
+    const swellH = c.swell_wave_height  ?? null;
+    const period = c.wave_period        ?? null;
+    const dir    = c.wave_direction     ?? null;
+
+    function degToDir(deg) {
+      const dirs = ['北','北北東','北東','東北東','東','東南東','南東','南南東','南','南南西','南西','西南西','西','西北西','北西','北北西'];
+      return dirs[Math.round(deg / 22.5) % 16];
+    }
+
+    function rating(h) {
+      if (h === null) return { emoji:'❓', label:'不明',  desc:'データなし' };
+      if (h < 0.3)   return { emoji:'😴', label:'Flat',  desc:'波なし' };
+      if (h < 0.7)   return { emoji:'🌊', label:'Small', desc:'初心者向き' };
+      if (h < 1.2)   return { emoji:'🌊🌊', label:'Fun', desc:'楽しめる波！' };
+      if (h < 1.8)   return { emoji:'🌊🌊🌊', label:'Good', desc:'いいコンディション！' };
+      if (h < 2.5)   return { emoji:'💪', label:'Solid', desc:'上級者向き' };
+      return               { emoji:'⚠️', label:'Big',   desc:'ビッグウェーブ！' };
+    }
+
+    const r = rating(waveH);
+    const now = new Date();
+    document.getElementById('waveUpdated').textContent =
+      `更新: ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+    document.getElementById('waveContent').innerHTML = `
+      <div class="wave-grid">
+        <div class="wave-stat">
+          <div class="wave-stat-icon">📏</div>
+          <div class="wave-stat-value">${waveH !== null ? waveH.toFixed(1) : '—'}</div>
+          <div class="wave-stat-unit">m</div>
+          <div class="wave-stat-label">波高</div>
+        </div>
+        <div class="wave-stat">
+          <div class="wave-stat-icon">⏱️</div>
+          <div class="wave-stat-value">${period !== null ? period.toFixed(0) : '—'}</div>
+          <div class="wave-stat-unit">秒</div>
+          <div class="wave-stat-label">周期</div>
+        </div>
+        <div class="wave-stat">
+          <div class="wave-stat-icon">🧭</div>
+          <div class="wave-stat-value" style="font-size:16px;">${dir !== null ? degToDir(dir) : '—'}</div>
+          <div class="wave-stat-unit">${dir !== null ? Math.round(dir)+'°' : ''}</div>
+          <div class="wave-stat-label">波向き</div>
+        </div>
+        <div class="wave-stat">
+          <div class="wave-stat-icon">🌀</div>
+          <div class="wave-stat-value">${swellH !== null ? swellH.toFixed(1) : '—'}</div>
+          <div class="wave-stat-unit">m</div>
+          <div class="wave-stat-label">うねり</div>
+        </div>
+      </div>
+      <div class="wave-rating">
+        <div class="wave-rating-label">コンディション</div>
+        <div class="wave-rating-value">${r.emoji} ${r.label}</div>
+        <div class="wave-rating-desc">${r.desc}</div>
+      </div>`;
+  } catch(e) {
+    document.getElementById('waveUpdated').textContent = '取得失敗';
+    document.getElementById('waveContent').innerHTML =
+      `<div class="wave-error">⚠️ データの取得に失敗しました。インターネット接続を確認してください。</div>`;
+  }
+}
+
+fetchWave();
+setInterval(fetchWave, 10 * 60 * 1000); // 10分ごとに自動更新
+
+// 旧WorldTidesのキャッシュを削除
+['worldtides_api_key','worldtides_cache','worldtides_cache_date'].forEach(k => localStorage.removeItem(k));
+
+// ── 田原赤羽 潮位ウィジェット (Stormglass API・完全無料) ──
+// 無料登録: https://stormglass.io  → 1日10回まで / キャッシュで1日1回のみ使用
+const TIDE_LAT = 34.595, TIDE_LON = 137.083; // 田原赤羽
+const TIDE_KEY        = 'stormglass_api_key';
+const TIDE_CACHE      = 'stormglass_tide_cache';
+const TIDE_CACHE_DATE = 'stormglass_tide_date';
+
+async function fetchTide() {
+  const apiKey = localStorage.getItem(TIDE_KEY);
+  if (!apiKey) { showTideSetup(); return; }
+
+  // 当日キャッシュがあれば再利用（API呼び出しを節約）
+  const today = new Date().toDateString();
+  if (localStorage.getItem(TIDE_CACHE_DATE) === today && localStorage.getItem(TIDE_CACHE)) {
+    renderTide(JSON.parse(localStorage.getItem(TIDE_CACHE)));
+    return;
+  }
+
+  try {
+    const start = new Date(); start.setHours(0,0,0,0);
+    const end   = new Date(); end.setHours(23,59,59,999);
+    const url = `https://api.stormglass.io/v2/tide/extremes/point?lat=${TIDE_LAT}&lng=${TIDE_LON}&start=${start.toISOString()}&end=${end.toISOString()}`;
+    const res = await fetch(url, { headers: { Authorization: apiKey } });
+    const data = await res.json();
+    if (!data.data) throw new Error(data.errors?.key?.[0] || 'データ取得失敗');
+    localStorage.setItem(TIDE_CACHE, JSON.stringify(data));
+    localStorage.setItem(TIDE_CACHE_DATE, today);
+    renderTide(data);
+  } catch(e) {
+    document.getElementById('tideContent').innerHTML =
+      `<div class="tide-error-msg">⚠️ ${e.message}
+       <br><button onclick="clearTideKey()" class="tide-reg-link" style="background:none;border:none;cursor:pointer;">APIキーを再設定</button></div>`;
+    document.getElementById('tideUpdated').textContent = '';
+  }
+}
+
+function renderTide(data) {
+  const nowMs = Date.now();
+  const items = (data.data || []).map(e => {
+    const dt     = new Date(e.time);
+    const time   = `${dt.getHours()}:${String(dt.getMinutes()).padStart(2,'0')}`;
+    const isHigh = e.type === 'high';
+    const isPast = dt.getTime() < nowMs;
+    return `
+      <div class="tide-item" style="${isPast ? 'opacity:0.45' : ''}">
+        <div class="tide-item-type">${isHigh ? '🔺 満潮' : '🔻 干潮'}</div>
+        <div class="tide-item-height">${e.height.toFixed(2)}</div>
+        <div class="tide-item-unit">m</div>
+        <div class="tide-item-time">${time}</div>
+      </div>`;
+  }).join('');
+  document.getElementById('tideContent').innerHTML =
+    `<div class="tide-list">${items || '<div style="color:rgba(255,255,255,0.5);font-size:13px;">本日のデータなし</div>'}</div>`;
+  const upd = new Date();
+  document.getElementById('tideUpdated').textContent = `更新: ${upd.getHours()}:${String(upd.getMinutes()).padStart(2,'0')}`;
+}
+
+function showTideSetup() {
+  document.getElementById('tideContent').innerHTML = `
+    <div class="tide-setup">
+      <p>Stormglass APIキーを設定してください<br><span style="font-size:11px;opacity:0.7">完全無料・クレジットカード不要・1日10回まで</span></p>
+      <div class="tide-key-form">
+        <input class="tide-key-input" id="tideKeyInput" type="text" placeholder="APIキーを貼り付け...">
+        <button class="tide-key-btn" onclick="saveTideKey()">保存</button>
+      </div>
+      <a href="https://stormglass.io" target="_blank" class="tide-reg-link">→ stormglass.io で無料登録（メールのみ）</a>
+    </div>`;
+  document.getElementById('tideUpdated').textContent = '要設定';
+}
+
+function saveTideKey() {
+  const key = (document.getElementById('tideKeyInput')?.value || '').trim();
+  if (!key) return;
+  localStorage.setItem(TIDE_KEY, key);
+  localStorage.removeItem(TIDE_CACHE);
+  localStorage.removeItem(TIDE_CACHE_DATE);
+  fetchTide();
+}
+
+function clearTideKey() {
+  localStorage.removeItem(TIDE_KEY);
+  localStorage.removeItem(TIDE_CACHE);
+  localStorage.removeItem(TIDE_CACHE_DATE);
+  showTideSetup();
+}
+
+fetchTide();
+</script>
+</body>
+</html>
