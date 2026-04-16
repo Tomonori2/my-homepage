@@ -502,24 +502,17 @@ footer span { color: var(--foam); font-weight: 600; }
     </a>
   </div>
 
-  <!-- イーロン・マスク X投稿 -->
+  <!-- イーロン・マスク ニュース -->
   <div style="margin-top:2.5rem;">
     <div class="section-title">Elon Musk</div>
-    <div class="section-heading" style="margin-bottom:1.5rem;">イーロン・マスクの投稿</div>
-    <div style="border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,119,182,0.12);">
-      <a class="twitter-timeline"
-         data-lang="ja"
-         data-height="600"
-         data-theme="light"
-         data-chrome="noheader nofooter"
-         href="https://twitter.com/elonmusk">
-        @elonmusk の投稿を読み込み中...
-      </a>
+    <div class="section-heading" style="margin-bottom:1.5rem;">📰 最新情報まとめ</div>
+    <div id="elonNews" style="display:flex;flex-direction:column;gap:10px;">
+      <div style="text-align:center;padding:2rem;color:var(--muted);">読み込み中...</div>
     </div>
-    <div style="text-align:center;margin-top:1rem;">
-      <a href="https://twitter.com/elonmusk" target="_blank"
-         style="display:inline-flex;align-items:center;gap:8px;background:#000;color:#fff;text-decoration:none;padding:10px 24px;border-radius:50px;font-size:14px;font-weight:600;">
-        𝕏 @elonmusk をフォロー
+    <div style="text-align:center;margin-top:1.2rem;">
+      <a href="https://news.google.com/search?q=Elon+Musk&hl=ja" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;background:var(--ocean);color:#fff;text-decoration:none;padding:10px 24px;border-radius:50px;font-size:14px;font-weight:600;">
+        📰 もっと見る（Google ニュース）
       </a>
     </div>
   </div>
@@ -955,7 +948,39 @@ function clearTideKey() {
 }
 
 fetchTide();
+
+// ── イーロン・マスク ニュース ──
+async function fetchElonNews() {
+  const el = document.getElementById('elonNews');
+  if (!el) return;
+  const RSS = 'https://news.google.com/rss/search?q=Elon+Musk&hl=ja&gl=JP&ceid=JP:ja';
+  const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(RSS);
+  try {
+    const res = await fetch(proxy);
+    const data = await res.json();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data.contents, 'text/xml');
+    const items = Array.from(xml.querySelectorAll('item')).slice(0, 8);
+    if (items.length === 0) throw new Error('no items');
+    el.innerHTML = items.map(item => {
+      const title = item.querySelector('title')?.textContent || '';
+      const link  = item.querySelector('link')?.textContent || '#';
+      const pub   = item.querySelector('pubDate')?.textContent || '';
+      const date  = pub ? new Date(pub).toLocaleString('ja-JP', {month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+      const source = item.querySelector('source')?.textContent || '';
+      return `<a href="${link}" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.85);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--text);box-shadow:0 2px 10px rgba(0,119,182,0.08);border:1px solid rgba(255,255,255,0.9);transition:transform .15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        <div style="font-size:22px;flex-shrink:0;">📰</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:14px;font-weight:600;color:var(--dark);line-height:1.4;margin-bottom:4px;">${title}</div>
+          <div style="font-size:12px;color:var(--muted);">${source}　${date}</div>
+        </div>
+      </a>`;
+    }).join('');
+  } catch(e) {
+    el.innerHTML = '<div style="text-align:center;padding:1.5rem;color:var(--muted);">ニュースを取得できませんでした</div>';
+  }
+}
+fetchElonNews();
 </script>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
