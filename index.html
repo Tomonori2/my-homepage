@@ -189,6 +189,38 @@ section { padding: 5rem 1.5rem; max-width: 860px; margin: 0 auto; }
 .read-date { font-size: 12px; color: var(--muted); margin-bottom: 1.5rem; }
 .read-content { font-size: 15px; line-height: 1.9; color: var(--text); white-space: pre-wrap; }
 
+/* ── ANIMATED WAVES ── */
+.wave-bg {
+  position: fixed; bottom: 0; left: 0; width: 100%; height: 160px;
+  z-index: 0; pointer-events: none; overflow: hidden;
+}
+.wave-layer {
+  position: absolute; bottom: 0; left: 0;
+  width: 200%; height: 100%;
+  background-repeat: repeat-x;
+  background-position: 0 bottom;
+  background-size: 50% 100%;
+}
+.wave-layer-1 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120'%3E%3Cpath d='M0,60 C120,100 240,20 360,60 C480,100 600,20 720,60 C840,100 960,20 1080,60 C1200,100 1320,20 1440,60 L1440,120 L0,120Z' fill='rgba(0%2C119%2C182%2C0.18)'/%3E%3C/svg%3E");
+  animation: waveMove 9s linear infinite;
+  height: 120px;
+}
+.wave-layer-2 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120'%3E%3Cpath d='M0,40 C180,90 360,10 540,50 C720,90 900,10 1080,50 C1260,90 1380,20 1440,50 L1440,120 L0,120Z' fill='rgba(0%2C180%2C216%2C0.15)'/%3E%3C/svg%3E");
+  animation: waveMove 13s linear infinite reverse;
+  height: 100px; bottom: 0;
+}
+.wave-layer-3 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120'%3E%3Cpath d='M0,70 C240,110 480,30 720,70 C960,110 1200,30 1440,70 L1440,120 L0,120Z' fill='rgba(144%2C224%2C239%2C0.2)'/%3E%3C/svg%3E");
+  animation: waveMove 7s linear infinite;
+  height: 80px; bottom: 0;
+}
+@keyframes waveMove {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* ── WAVE WIDGET ── */
 .wave-section { padding: 3rem 1.5rem; max-width: 860px; margin: 0 auto; }
 .wave-widget {
@@ -264,6 +296,25 @@ section { padding: 5rem 1.5rem; max-width: 860px; margin: 0 auto; }
 .tide-reg-link { color: var(--foam); font-size: 12px; text-decoration: underline; }
 .tide-error-msg { font-size: 12px; color: #ffaaa5; text-align: center; padding: 0.5rem; }
 
+/* ── CONTACT ── */
+.contact-section { padding: 3rem 1.5rem; max-width: 860px; margin: 0 auto; text-align: center; }
+.contact-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--dark); color: white; text-decoration: none;
+  padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 600;
+  box-shadow: 0 4px 20px rgba(2,48,71,0.2); transition: transform .2s, box-shadow .2s;
+}
+.contact-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(2,48,71,0.3); }
+
+/* ── WAVE GRAPH ── */
+.wave-graph-wrap {
+  margin-top: 1.5rem; background: rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 1.25rem;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.wave-graph-title { font-size: 14px; font-weight: 700; color: var(--foam); margin-bottom: 1rem; }
+.wave-graph-svg { width: 100%; height: 100px; overflow: visible; }
+
 /* ── FOOTER ── */
 footer {
   background: var(--dark); color: #7bafc8; text-align: center;
@@ -278,14 +329,29 @@ footer span { color: var(--foam); font-weight: 600; }
 </head>
 <body>
 
+<!-- FLOATING CLOCK -->
+<div id="heroClock" style="position:fixed;top:70px;right:20px;z-index:90;background:rgba(2,48,71,0.75);backdrop-filter:blur(10px);border:1px solid rgba(144,224,239,0.3);border-radius:16px;padding:10px 20px;text-align:center;">
+  <div id="heroTime" style="font-size:28px;font-weight:800;color:#fff;letter-spacing:2px;font-variant-numeric:tabular-nums;"></div>
+  <div id="heroDate" style="font-size:11px;color:rgba(144,224,239,0.85);margin-top:2px;letter-spacing:0.5px;"></div>
+</div>
+
+<!-- ANIMATED WAVES -->
+<div class="wave-bg" aria-hidden="true">
+  <div class="wave-layer wave-layer-1"></div>
+  <div class="wave-layer wave-layer-2"></div>
+  <div class="wave-layer wave-layer-3"></div>
+</div>
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">🏄 NISHI</div>
+  <div id="jstClock" style="color:var(--foam);font-size:13px;letter-spacing:1px;"></div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#wave">波情報</a></li>
     <li><a href="#spots">Spots</a></li>
-    <li><a href="#blog">Blog</a></li>
+    <li><a href="#blog">X投稿</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
@@ -294,7 +360,7 @@ footer span { color: var(--foam); font-weight: 600; }
   <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;">
   <div class="hero-avatar">🏄</div>
   <h1>西</h1>
-  <div class="hero-sub">伊良湖 → 沖縄 · 下田 · 鴨川</div>
+  <div class="hero-sub">伊良湖 → 沖縄 · 下田 · 鴨川 · 湘南</div>
   <div class="hero-tags">
     <span class="tag">🌊 サーフィン</span>
     <span class="tag">✈️ 旅行</span>
@@ -349,6 +415,12 @@ footer span { color: var(--foam); font-weight: 600; }
       <div class="wave-loading">🌊 データを取得しています...</div>
     </div>
 
+    <!-- 波グラフ -->
+    <div class="wave-graph-wrap">
+      <div class="wave-graph-title">📈 本日の波高グラフ（24時間）</div>
+      <svg class="wave-graph-svg" id="waveGraphSvg" viewBox="0 0 600 100" preserveAspectRatio="none"></svg>
+    </div>
+
     <!-- 潮位サブセクション -->
     <div class="tide-sub">
       <div class="tide-sub-header">
@@ -394,19 +466,60 @@ footer span { color: var(--foam); font-weight: 600; }
         <p>千葉の湘南。コンスタントに波があり、ドライブも楽しい。</p>
       </div>
     </div>
+    <div class="spot-card">
+      <div class="spot-img">
+        <video src="media/湘南.mp4" autoplay muted loop playsinline></video>
+      </div>
+      <div class="spot-info">
+        <h3>🏖️ 湘南</h3>
+        <p>神奈川の定番サーフスポット。賑やかなビーチと安定した波が魅力。</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- BLOG -->
-<section id="blog">
-  <div class="blog-header">
-    <div>
-      <div class="section-title">Blog</div>
-      <div class="section-heading" style="margin-bottom:0">ブログ</div>
-    </div>
-    <button class="write-btn" onclick="openWriteModal()">✏️ 記事を書く</button>
+<!-- X TIMELINE -->
+<section id="blog" style="padding:5rem 1.5rem;max-width:860px;margin:0 auto;">
+  <div class="section-title">X / Twitter</div>
+  <div class="section-heading">本日のまとめ</div>
+  <div style="border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,119,182,0.12);">
+    <a class="twitter-timeline"
+       data-lang="ja"
+       data-height="600"
+       data-theme="light"
+       data-chrome="noheader nofooter"
+       href="https://twitter.com/Nishi2ex">
+      @Nishi2ex のツイートを読み込み中...
+    </a>
   </div>
-  <div class="posts-list" id="postsList"></div>
+  <div style="text-align:center;margin-top:1rem;">
+    <a href="https://twitter.com/Nishi2ex" target="_blank"
+       style="display:inline-flex;align-items:center;gap:8px;background:#000;color:#fff;text-decoration:none;padding:10px 24px;border-radius:50px;font-size:14px;font-weight:600;">
+      𝕏 @Nishi2ex をフォロー
+    </a>
+  </div>
+
+  <!-- イーロン・マスク X投稿 -->
+  <div style="margin-top:2.5rem;">
+    <div class="section-title">Elon Musk</div>
+    <div class="section-heading" style="margin-bottom:1.5rem;">イーロン・マスクの投稿</div>
+    <div style="border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,119,182,0.12);">
+      <a class="twitter-timeline"
+         data-lang="ja"
+         data-height="600"
+         data-theme="light"
+         data-chrome="noheader nofooter"
+         href="https://twitter.com/elonmusk">
+        @elonmusk の投稿を読み込み中...
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:1rem;">
+      <a href="https://twitter.com/elonmusk" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;background:#000;color:#fff;text-decoration:none;padding:10px 24px;border-radius:50px;font-size:14px;font-weight:600;">
+        𝕏 @elonmusk をフォロー
+      </a>
+    </div>
+  </div>
 </section>
 
 <!-- 広告枠: 審査通過後にコメントアウトを外してください -->
@@ -421,6 +534,16 @@ footer span { color: var(--foam); font-weight: 600; }
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 -->
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-title">Contact</div>
+  <div class="section-heading">お問い合わせ</div>
+  <p style="color:var(--muted);margin-bottom:1.5rem;font-size:15px;">ご質問やメッセージはお気軽にどうぞ</p>
+  <a class="contact-btn" href="mailto:tn20202929@gmail.com">
+    ✉️ メールを送る
+  </a>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -587,6 +710,26 @@ document.addEventListener('keydown', e => {
 
 renderPosts();
 
+// ── 日本標準時計 ──
+const WEEKDAYS = ['日','月','火','水','木','金','土'];
+function updateClock() {
+  const jst = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+  const y  = jst.getFullYear();
+  const mo = String(jst.getMonth()+1).padStart(2,'0');
+  const d  = String(jst.getDate()).padStart(2,'0');
+  const wd = WEEKDAYS[jst.getDay()];
+  const h  = String(jst.getHours()).padStart(2,'0');
+  const mi = String(jst.getMinutes()).padStart(2,'0');
+  const s  = String(jst.getSeconds()).padStart(2,'0');
+  // ナビ時計
+  document.getElementById('jstClock').textContent = `🇯🇵 ${y}/${mo}/${d} ${h}:${mi}:${s} JST`;
+  // ヒーロー時計
+  document.getElementById('heroTime').textContent = `${h}:${mi}:${s}`;
+  document.getElementById('heroDate').textContent = `${y}年${mo}月${d}日（${wd}）JST`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
 // ── 波情報ウィジェット ──
 async function fetchWave() {
   const LAT = 34.5757, LON = 137.0386;
@@ -660,7 +803,63 @@ async function fetchWave() {
 }
 
 fetchWave();
-setInterval(fetchWave, 10 * 60 * 1000); // 10分ごとに自動更新
+setInterval(fetchWave, 10 * 60 * 1000);
+
+// ── 波高グラフ ──
+async function fetchWaveGraph() {
+  const LAT = 34.5757, LON = 137.0386;
+  const today = new Date().toISOString().slice(0,10);
+  const url = `https://marine-api.open-meteo.com/v1/marine?latitude=${LAT}&longitude=${LON}&hourly=wave_height&start_date=${today}&end_date=${today}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const heights = data.hourly.wave_height;
+    const times   = data.hourly.time;
+    drawWaveGraph(heights, times);
+  } catch(e) {}
+}
+
+function drawWaveGraph(heights, times) {
+  const svg = document.getElementById('waveGraphSvg');
+  if (!svg || !heights || heights.length === 0) return;
+  const W = 600, H = 100, pad = 10;
+  const max = Math.max(...heights.filter(v => v != null), 0.5);
+  const now = new Date().getHours();
+
+  const pts = heights.map((h, i) => {
+    const x = pad + (i / (heights.length - 1)) * (W - pad * 2);
+    const y = H - pad - ((h ?? 0) / max) * (H - pad * 2);
+    return [x, y];
+  });
+
+  const area = `M${pts[0][0]},${H} ` + pts.map(([x,y]) => `L${x},${y}`).join(' ') + ` L${pts[pts.length-1][0]},${H} Z`;
+  const line = `M` + pts.map(([x,y]) => `${x},${y}`).join(' L');
+
+  // 現在時刻のX座標
+  const nowX = pad + (now / (heights.length - 1)) * (W - pad * 2);
+
+  // 時刻ラベル（0,6,12,18）
+  const labels = [0,6,12,18,23].map(i => {
+    const x = pad + (i / (heights.length - 1)) * (W - pad * 2);
+    return `<text x="${x}" y="98" font-size="10" fill="rgba(144,224,239,0.7)" text-anchor="middle">${i}時</text>`;
+  }).join('');
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(0,180,216,0.5)"/>
+        <stop offset="100%" stop-color="rgba(0,180,216,0)"/>
+      </linearGradient>
+    </defs>
+    <path d="${area}" fill="url(#wg)"/>
+    <path d="${line}" fill="none" stroke="#90E0EF" stroke-width="2" stroke-linejoin="round"/>
+    <line x1="${nowX}" y1="${pad}" x2="${nowX}" y2="${H-14}" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="${nowX}" y="${pad+8}" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">今</text>
+    <text x="${W - pad}" y="${pad + 8}" font-size="9" fill="rgba(144,224,239,0.8)" text-anchor="end">${max.toFixed(1)}m</text>
+    ${labels}`;
+}
+
+fetchWaveGraph();
 
 // 旧WorldTidesのキャッシュを削除
 ['worldtides_api_key','worldtides_cache','worldtides_cache_date'].forEach(k => localStorage.removeItem(k));
@@ -753,6 +952,6 @@ function clearTideKey() {
 
 fetchTide();
 </script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
-
