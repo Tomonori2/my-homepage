@@ -612,6 +612,7 @@ function formatDate(ts) {
 function renderPosts() {
   const posts = getPosts();
   const el = document.getElementById('postsList');
+  if (!el) return;
   if (posts.length === 0) {
     el.innerHTML = `<div class="empty-state"><div class="big">📝</div>まだ記事がありません。<br>「記事を書く」ボタンから投稿してみましょう！</div>`;
     return;
